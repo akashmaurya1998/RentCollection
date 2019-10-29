@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">RentCollection</string>
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+
+    <!-- Change the following strings as required -->
+    <string name="back4app_app_id">yVQRPQ7qvL8V4Ku636TIV28uR5yH77YbalHjX5eo</string>
+    <string name="back4app_client_key">30rv6RNjP2DrYbRzcQbVvAzuUZChaiL7FXgBLZdp</string>
+    <string name="welcome_what_do_you_want_to_do">Welcome !! What do you want to do?</string>
+    <string name="see_room_info">See Room Info</string>
+    <string name="calculate_rent">Calculate Rent</string>
+    <string name="do_final_calculation">Do Final Calculation</string>
+    <string name="add_new_tenant">Add New Tenant</string>
+
+</resources>
