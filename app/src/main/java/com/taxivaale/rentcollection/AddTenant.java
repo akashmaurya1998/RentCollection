@@ -17,19 +17,15 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class AddTenant extends AppCompatActivity {
 
     EditText edtName, edtPerAdd, edtRoomNo, edtPhoneNo, edtDeposit;
     Button btnSave;
     ProgressDialog progressDialog;
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
 
 
     int recDeposit = 0, roomNo = 0, f,rDeposit,balDeposit;
-    String phoneNo, name, perAdd,date;
+    String phoneNo, name, perAdd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +38,6 @@ public class AddTenant extends AppCompatActivity {
         edtRoomNo = (EditText) findViewById(R.id.edtTenantRoomNo);
         edtPerAdd = (EditText) findViewById(R.id.edtPerAdd);
         edtName = (EditText) findViewById(R.id.edtName);
-        date = sdf.format(new Date());
 
         btnSave = (Button) findViewById(R.id.btnAddTenant);
 
@@ -114,6 +109,7 @@ public class AddTenant extends AppCompatActivity {
                     Log.d("rDeposit", "Done");
                     rDeposit = room.getInt("Deposit");
                     balDeposit = rDeposit - recDeposit;
+//                    Toast.makeText(AddTenant.this, "" + rDeposit, Toast.LENGTH_SHORT).show();
                     getDataComplete();
                 }
 
@@ -132,18 +128,17 @@ public class AddTenant extends AppCompatActivity {
             tenant.put("TenantName", name);
             tenant.put("Deposit", recDeposit);
             tenant.put("BalanceDeposit", balDeposit);
-            tenant.put("Date", date);
 
             tenant.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
                     if (e == null){
-                        Toast.makeText(AddTenant.this, "New Tenant has been added", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(AddTenant.this, "New Tenant has been added", Toast.LENGTH_SHORT).show();
                         progressDialog.dismiss();
-
-                        Intent intent = new Intent(AddTenant.this, AddTenant.class);
-                        startActivity(intent);
-                        finish();
+                        Toast.makeText(AddTenant.this, "" + rDeposit, Toast.LENGTH_SHORT).show();
+//                                Intent intent = new Intent(AddTenant.this, AddTenant.class);
+//                                startActivity(intent);
+//                                finish();
                     }
                     else {
                         Toast.makeText(AddTenant.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -164,17 +159,16 @@ public class AddTenant extends AppCompatActivity {
                     tenant.put("TenantName", name);
                     tenant.put("Deposit", recDeposit);
                     tenant.put("BalanceDeposit", balDeposit);
-                    tenant.put("Date", date);
                     tenant.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             if (e == null){
-                                Toast.makeText(AddTenant.this, "Tenant Updated", Toast.LENGTH_SHORT).show();
+                                // Toast.makeText(AddTenant.this, "Tenant Updated", Toast.LENGTH_SHORT).show();
                                 progressDialog.dismiss();
                                 Toast.makeText(AddTenant.this, "" + rDeposit, Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(AddTenant.this, AddTenant.class);
-                                startActivity(intent);
-                                finish();
+//                                        Intent intent = new Intent(AddTenant.this, AddTenant.class);
+//                                        startActivity(intent);
+//                                        finish();
                             }
                             else {
                                 Toast.makeText(AddTenant.this, e.getMessage(), Toast.LENGTH_SHORT).show();

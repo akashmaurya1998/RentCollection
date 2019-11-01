@@ -10,5 +10,14 @@
     <string name="calculate_rent">Calculate Rent</string>
     <string name="do_final_calculation">Do Final Calculation</string>
     <string name="add_new_tenant">Add New Tenant</string>
+   
+    <string name="enter_room_no">Enter Room No</string>
+    <string name="view">View</string>
+    <string name="given_deposit">Given Deposit :</string>
+    <string name="current_tenant">Current Tenant :</string>
+    <string name="balance_deposit">Balance Deposit</string>
+    <string name="mobile_no">Mobile No :</string>
+    <string name="last_light_bill">Last Light Bill :</string>
+    <string name="last_total">Last Total :</string>
 
 </resources>

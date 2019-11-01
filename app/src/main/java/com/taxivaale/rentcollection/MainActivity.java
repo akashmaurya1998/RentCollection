@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity  {
 
     TextView tvTotal, tvlightBill, tvBalance, tvRent;
 
-    int preUnit, rent, bal, unit, total, recieved, dtotal, dUnit, balance;
+    int preUnit, rent, bal, unit, total, recieved, dtotal, dUnit, balance,lightBill;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity  {
          tvRent = findViewById(R.id.tvRent);
          btnRecieve = findViewById(R.id.btnRecieved);
          edtRecieved = findViewById(R.id.edtRecieved);
-         ParseInstallation.getCurrentInstallation().saveInBackground();
+
 
 
 
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity  {
                             rent = room.getInt("Rent");
                             dUnit = room.getInt("Unit");
 
-                            int lightBill = ((unit - dUnit) * 8);
+                            lightBill = ((unit - dUnit) * 8);
                             total = lightBill + bal + rent;
 
 
@@ -127,12 +127,8 @@ public class MainActivity extends AppCompatActivity  {
                             Toast.makeText(MainActivity.this, " "+ unit, Toast.LENGTH_SHORT).show();
 
 
-                            if (dtotal == 0){
-                                room.put("Total", total);
 
-                                room.saveInBackground();
-                            }
-                            else {
+
                                 room.put("LastTotal", Integer.toString(dtotal));
                                 room.put("lunit", dUnit);
                                 room.put("Total", total);
@@ -142,7 +138,7 @@ public class MainActivity extends AppCompatActivity  {
 
                                 room.saveInBackground();
 
-                            }
+
                         }
 
                         else {

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.parse.ParseInstallation;
+
 public class HomeScreen extends AppCompatActivity implements View.OnClickListener{
 
     Button btnRentCal, btnRoomInfo, btnFinalCal, btnAddTenant;
@@ -25,6 +27,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         btnFinalCal.setOnClickListener(this);
         btnRoomInfo.setOnClickListener(this);
         btnRentCal.setOnClickListener(this);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
     }
 
     @Override
