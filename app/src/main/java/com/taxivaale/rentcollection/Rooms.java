@@ -62,6 +62,11 @@ public class Rooms extends AppCompatActivity implements View.OnClickListener {
                     mobileNo = tenant.getString("PhoneNo");
                     gDeposit = tenant.getInt("Deposit");
                     balDeposit = tenant.getInt("BalanceDeposit");
+
+                    tvGetCt.setText(tenantName);
+                    tvGetMN.setText(mobileNo);
+                    tvGetGD.setText(" " + gDeposit);
+                    tvGetBD.setText(" " + balDeposit);
                 }
                 else {
                     Toast.makeText(Rooms.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -82,6 +87,10 @@ public class Rooms extends AppCompatActivity implements View.OnClickListener {
                 if (e == null){
                     lastBill = room.getInt("LightBill");
                     lastTotal = room.getInt("Total");
+
+                    tvGetLT.setText(" " + lastTotal);
+                    tvGetLB.setText(" " + lastBill);
+                    progressDialog.dismiss();
                 }
                 else {
                     Toast.makeText(Rooms.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -93,20 +102,13 @@ public class Rooms extends AppCompatActivity implements View.OnClickListener {
                             // To get and set values in TextViews
     public void setValues(){
 
-        tvGetMN.setText(mobileNo);
-        tvGetLB.setText(" " + lastBill);
-        tvGetCt.setText(tenantName);
-        tvGetBD.setText(" " + balDeposit);
-        tvGetGD.setText(" " + gDeposit);
-        tvGetLT.setText(" " + lastTotal);
-
         tvGetLT.setVisibility(View.VISIBLE);
         tvGetGD.setVisibility(View.VISIBLE);
         tvGetBD.setVisibility(View.VISIBLE);
         tvGetCt.setVisibility(View.VISIBLE);
         tvGetLB.setVisibility(View.VISIBLE);
         tvGetMN.setVisibility(View.VISIBLE);
-        progressDialog.dismiss();
+
     }
 
     @Override
