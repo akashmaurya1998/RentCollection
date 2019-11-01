@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity  {
 
 
 
+
+
         btnRooms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +70,9 @@ public class MainActivity extends AppCompatActivity  {
         btnCalculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
                 if (edtUnit.getText().toString() != null && !edtUnit.getText().toString().equals("")){
                     unit = Integer.parseInt(edtUnit.getText().toString());
                 }
@@ -83,7 +89,7 @@ public class MainActivity extends AppCompatActivity  {
                             rent = room.getInt("Rent");
                             dUnit = room.getInt("Unit");
 
-                            lightBill = ((unit - dUnit) * 8);
+                            lightBill = ((unit - dUnit) * 10);
                             total = lightBill + bal + rent;
 
 
@@ -135,6 +141,7 @@ public class MainActivity extends AppCompatActivity  {
                                 room.put("Unit", unit);
                                 room.put("Recieved", recieved);
                                 room.put("Balance", balance);
+                                room.put("LightBill", lightBill);
 
                                 room.saveInBackground();
 

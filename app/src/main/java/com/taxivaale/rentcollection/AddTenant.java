@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -24,8 +25,16 @@ public class AddTenant extends AppCompatActivity {
     ProgressDialog progressDialog;
 
 
+
+
     int recDeposit = 0, roomNo = 0, f,rDeposit,balDeposit;
     String phoneNo, name, perAdd;
+
+
+    //  Function to hide Keyboard
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +54,12 @@ public class AddTenant extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
+
                 progressDialog = new ProgressDialog(AddTenant.this);
                 progressDialog.setMessage("Processing...");
                 progressDialog.show();
-
-
+                ;
 
                 final ParseObject room = new ParseObject("room");
 
@@ -179,6 +189,7 @@ public class AddTenant extends AppCompatActivity {
             });
         }
     }
+
 
 
 
