@@ -19,5 +19,6 @@
     <string name="mobile_no">Mobile No :</string>
     <string name="last_light_bill">Last Light Bill :</string>
     <string name="last_total">Last Total :</string>
+    <string name="developed_by_wedevelop"><a href="https://www.wedevelop.in">Developed by WeDevelop</a></string>
 
 </resources>

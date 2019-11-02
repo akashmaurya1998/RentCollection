@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.parse.ParseInstallation;
 
@@ -13,10 +15,16 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
 
     Button btnRentCal, btnRoomInfo, btnFinalCal, btnAddTenant;
 
+    TextView tvWeDevelop;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+
+        tvWeDevelop = (TextView) findViewById(R.id.tvWedevelop);
+        tvWeDevelop.setMovementMethod(LinkMovementMethod.getInstance());
+
 
         btnAddTenant = (Button) findViewById(R.id.btnAddTenant);
         btnFinalCal = (Button) findViewById(R.id.btnFinalCal);
@@ -28,6 +36,8 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         btnRoomInfo.setOnClickListener(this);
         btnRentCal.setOnClickListener(this);
         ParseInstallation.getCurrentInstallation().saveInBackground();
+
+
     }
 
     @Override
@@ -53,6 +63,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                 Intent intent3 = new Intent(HomeScreen.this, FinalCalculation.class);
                 startActivity(intent3);
                 break;
+
         }
     }
 }
