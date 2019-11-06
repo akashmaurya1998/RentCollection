@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,15 +15,18 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 public class FinalCalculation extends AppCompatActivity implements View.OnClickListener {
 
     EditText edtRoomNo, edtMeterUnit, edtDays, edtExtraFine, edtRecieved;
     TextView tvGetLB, tvCalRent, tvGetBal, tvExtraFine, tvGetDepo, tvFccalTotal;
 
-    Button btnCalculate, btnFCReceive;
+    Button btnCalculate, btnFCRemove;
 
-    public int roomNo, meterUnit, days, extraFine, receive, total, dbUnit, dbDeposit,lightBill, rent, actualRent, balance;
+    public float  meterUnit, days, extraFine, total, rent, dbUnit, dbDeposit,lightBill, actualRent, balance, lastTotal, lastUnit;
+
+    public int roomNo;
 
     ProgressDialog progressDialog;
 
@@ -41,7 +43,6 @@ public class FinalCalculation extends AppCompatActivity implements View.OnClickL
         edtMeterUnit = (EditText) findViewById(R.id.edtMeterUnit);
         edtDays = (EditText) findViewById(R.id.edtExtraDays);
         edtExtraFine = (EditText) findViewById(R.id.edtExtraFine);
-        edtRecieved = (EditText) findViewById(R.id.edtRecAmt);
 
                                         //Initializing TextViews
 
@@ -55,16 +56,16 @@ public class FinalCalculation extends AppCompatActivity implements View.OnClickL
                                         //Initialing Buttons
 
         btnCalculate = (Button) findViewById(R.id.btnCalculate);
-        btnFCReceive = (Button) findViewById(R.id.btnFCRecieve);
+        btnFCRemove = (Button) findViewById(R.id.btnFCRemove);
 
                                         // Initializing progress dialogue
 
         progressDialog = new ProgressDialog(FinalCalculation.this);
-        progressDialog.setMessage("Calculating...");
+        progressDialog.setMessage("Processing...");
 
                                         //set On Click Listener
         btnCalculate.setOnClickListener(this);
-        btnFCReceive.setOnClickListener(this);
+        btnFCRemove.setOnClickListener(this);
     }
 
                                         //Getting Data from Parse Server
@@ -90,6 +91,7 @@ public class FinalCalculation extends AppCompatActivity implements View.OnClickL
 
     public  void  getRoomData(){
         roomNo = Integer.parseInt(edtRoomNo.getText().toString());
+        days = Integer.parseInt(edtDays.getText().toString());
         meterUnit = Integer.parseInt(edtMeterUnit.getText().toString());
         ParseQuery<ParseObject> query = ParseQuery.getQuery("room");
         query.whereEqualTo("RoomNo", roomNo);
@@ -100,7 +102,11 @@ public class FinalCalculation extends AppCompatActivity implements View.OnClickL
                     dbUnit = room.getInt("Unit");
                     actualRent = room.getInt("Rent");
                     balance = room.getInt("Balance");
+                    lastTotal = room.getInt("Total");
+                    lastUnit = room.getInt("Unit");
+
                     tvGetBal.setText(" " + balance);
+
                 }
                 else {
                     Toast.makeText(FinalCalculation.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -109,6 +115,7 @@ public class FinalCalculation extends AppCompatActivity implements View.OnClickL
         });
 
         lightBill = (meterUnit - dbUnit) * 10;
+
         rent = (actualRent / 30) * days;
     }
 
@@ -124,7 +131,7 @@ public class FinalCalculation extends AppCompatActivity implements View.OnClickL
         //Initializing variables
         getAllData();
 
-        days = Integer.parseInt(edtDays.getText().toString());
+
         extraFine = Integer.parseInt(edtExtraFine.getText().toString());
 
 
@@ -138,6 +145,52 @@ public class FinalCalculation extends AppCompatActivity implements View.OnClickL
 
     }
 
+
+
+    public void btnFCRemove(){
+        roomNo = Integer.parseInt(edtRoomNo.getText().toString());
+        meterUnit = Integer.parseInt(edtMeterUnit.getText().toString());
+
+
+        getAllData();
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("room");
+        query.whereEqualTo("RoomNo", roomNo);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject room, ParseException e) {
+                if (e == null){
+
+                    room.put("Unit", meterUnit);
+                    room.put("Balance", 0);
+                    room.put("Total", total);
+                    room.put("LightBill", lightBill);
+                    room.put("Recieved", total);
+                    room.put("lunit", lastUnit);
+                    room.put("LastTotal", String.valueOf(lastTotal));
+
+                    room.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null){
+                                progressDialog.dismiss();
+                                Toast.makeText(FinalCalculation.this, "Done", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(FinalCalculation.this,  e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+
+                } else {
+                    Toast.makeText(FinalCalculation.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Toast.makeText(FinalCalculation.this, "Done", Toast.LENGTH_SHORT).show();
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -145,8 +198,10 @@ public class FinalCalculation extends AppCompatActivity implements View.OnClickL
                 btnCalculate();
                 break;
 
-            case R.id.btnFCRecieve :
-                Toast.makeText(FinalCalculation.this, "Under Progress", Toast.LENGTH_SHORT).show();
+            case R.id.btnFCRemove:
+                progressDialog.show();
+                btnFCRemove();
+
                 break;
         }
     }

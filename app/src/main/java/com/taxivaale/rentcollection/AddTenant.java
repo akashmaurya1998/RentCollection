@@ -3,6 +3,7 @@ package com.taxivaale.rentcollection;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+
 public class AddTenant extends AppCompatActivity {
 
     EditText edtName, edtPerAdd, edtRoomNo, edtPhoneNo, edtDeposit;
@@ -26,7 +30,9 @@ public class AddTenant extends AppCompatActivity {
 
 
     int recDeposit = 0, roomNo = 0, f,rDeposit,balDeposit;
-    String phoneNo, name, perAdd;
+    String phoneNo, name, perAdd, date;
+
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 
     //  Function to hide Keyboard
@@ -47,6 +53,8 @@ public class AddTenant extends AppCompatActivity {
         edtName = (EditText) findViewById(R.id.edtName);
 
         btnSave = (Button) findViewById(R.id.btnAddTenant);
+
+        date = sdf.format(date);
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +144,7 @@ public class AddTenant extends AppCompatActivity {
             tenant.put("TenantName", name);
             tenant.put("Deposit", recDeposit);
             tenant.put("BalanceDeposit", balDeposit);
+            tenant.put("Date", date);
 
             tenant.saveInBackground(new SaveCallback() {
                 @Override
@@ -144,9 +153,9 @@ public class AddTenant extends AppCompatActivity {
                         //Toast.makeText(AddTenant.this, "New Tenant has been added", Toast.LENGTH_SHORT).show();
                         progressDialog.dismiss();
                         Toast.makeText(AddTenant.this, "" + rDeposit, Toast.LENGTH_SHORT).show();
-//                                Intent intent = new Intent(AddTenant.this, AddTenant.class);
-//                                startActivity(intent);
-//                                finish();
+                               Intent intent = new Intent(AddTenant.this, AddTenant.class);
+                               startActivity(intent);
+                               finish();
                     }
                     else {
                         Toast.makeText(AddTenant.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -167,6 +176,7 @@ public class AddTenant extends AppCompatActivity {
                     tenant.put("TenantName", name);
                     tenant.put("Deposit", recDeposit);
                     tenant.put("BalanceDeposit", balDeposit);
+                    tenant.put("Date", date);
                     tenant.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
@@ -174,9 +184,9 @@ public class AddTenant extends AppCompatActivity {
                                 // Toast.makeText(AddTenant.this, "Tenant Updated", Toast.LENGTH_SHORT).show();
                                 progressDialog.dismiss();
                                 Toast.makeText(AddTenant.this, "" + rDeposit, Toast.LENGTH_SHORT).show();
-//                                        Intent intent = new Intent(AddTenant.this, AddTenant.class);
-//                                        startActivity(intent);
-//                                        finish();
+                                        Intent intent = new Intent(AddTenant.this, AddTenant.class);
+                                        startActivity(intent);
+                                        finish();
                             }
                             else {
                                 Toast.makeText(AddTenant.this, e.getMessage(), Toast.LENGTH_SHORT).show();
